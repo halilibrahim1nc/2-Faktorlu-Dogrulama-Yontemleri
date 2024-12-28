@@ -1,0 +1,20 @@
+{% extends "base_kapsul.html" %}
+{% block content %}
+
+<h2>İki Faktörlü Doğrulama Yöntemleri</h2>
+<form method="POST">
+    <label>Yöntem Seçin:</label>
+    <select name="yontem">
+        <option value="E-MAIL" {% if mevcut_yontem == 'E-MAIL' %}selected{% endif %}>e-Posta</option>
+        <option value="SMS" {% if mevcut_yontem == 'SMS' %}selected{% endif %}>SMS</option>
+        <option value="TOTP" {% if mevcut_yontem == 'TOTP' %}selected{% endif %}>TOTP</option>
+        <option value="DONANIM" {% if mevcut_yontem == 'DONANIM' %}selected{% endif %}>Donanım Anahtarı</option>
+        <option value="YUZ" {% if mevcut_yontem == 'YUZ' %}selected{% endif %}>Yüz Tanıma</option>
+        <option value="PUSH" {% if mevcut_yontem == 'PUSH' %}selected{% endif %}>Push Bildirimi</option>
+    </select>
+    <button type="submit">Kaydet</button>
+</form>
+
+<a href="/">Ana Sayfa</a>
+        
+{% endblock %}

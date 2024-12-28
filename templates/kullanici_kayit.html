@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcı Kayıt</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <style>
+        .container {
+            max-width: 600px;
+            margin-top: 30px ;
+        }
+        .form-check-icon {
+            font-size: 1.5rem;
+        }
+        .form-check-icon.green {
+            color: green;
+        }
+        .form-check-icon.gray {
+            color: gray;
+        }
+        .hidden-part {
+            display: none;
+        }
+        label{
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="max-width: 900px !important;">        
+        <h1 class="text-center mb-4">Kullanıcı Kayıt</h1>
+        <div class="d-flex justify-content-beetween">
+            <div class="col col-md-6 p-3">
+                <form method="POST" action="/kullanici_kayit">
+                    <table class="table table-borderless">
+                        <tbody>
+                            <!-- Kullanıcı Adı -->
+                            <tr>
+                                <td><label for="kullanici_adi">Kullanıcı Adı</label></td>
+                                <td>
+                                    <input type="text" value='{{kullanici[1] if kullanici else ""}}' class="form-control" id="kullanici_adi" name="kullanici_adi" autocomplete="off" >
+                                </td>
+                                <td class="text-center">
+                                    <i id="kullanici_adi_icon" class="form-check-icon {{'green' if kullanici[1] else 'gray' }} bi bi-check-circle-fill"></i>
+                                </td>
+                            </tr>
+                            <!-- Şifre -->
+                            <tr>
+                                <td><label for="sifre">Şifre</label></td>
+                                <td>
+                                    <input type="text" value='{{kullanici[2] if kullanici else ""}}' class="form-control" id="sifre" name="sifre" autocomplete="off" >
+                                </td>
+                                <td class="text-center">
+                                    <i id="sifre_icon" class="form-check-icon {{'green' if kullanici[2] else 'gray' }} bi bi-check-circle-fill"></i>
+                                </td>
+                            </tr>
+                            <!-- E-posta -->
+                            <tr>
+                                <td><label for="email">E-posta</label></td>
+                                <td>
+                                    <input type="email" value='{{kullanici[4] if kullanici else ""}}' class="form-control" id="email" name="email" autocomplete="off" >
+                                </td>
+                                <td class="text-center">
+                                    <i id="email_icon" class="form-check-icon {{'green' if kullanici[4] else 'gray' }} bi bi-check-circle-fill"></i>
+                                </td>
+                            </tr>
+                            <!-- Telefon -->
+                            <tr>
+                                <td><label for="telefon">Telefon</label></td>
+                                <td>
+                                    <input type="tel" value='{{kullanici[3] if kullanici else ""}}' class="form-control" id="telefon" name="telefon" autocomplete="off" >
+                                </td>
+                                <td class="text-center">
+                                    <i id="telefon_icon" class="form-check-icon {{'green' if kullanici[3] else 'gray' }} bi bi-check-circle-fill"></i>
+                                </td>
+                            </tr>
+                            <!-- Push Token -->
+                            <tr>
+                                <td><label for="push_token">Push Token</label></td>
+                                <td>
+                                    <input type="text" class="form-control" id="push_token" autocomplete="off" 
+                                    value="d2SHy-2sTY6AUdDREsXHWR:APA91bFCJfTXZxclJovvohnO9nQnMCXYe8eXqLZtLmFl06fin9z9uky5BSAkHldfsSvqVbejL6qGzXrzYhFVinocpllqwXiigDQGPjBwh5NAsvMFQIpKxhk"
+                                    name="push_token" >
+                                </td>
+                                <td class="text-center">
+                                    <i id="push_token_icon" class="form-check-icon green bi-check-circle-fill"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+    
+                    <button type="submit" class="btn btn-primary col col-md-6" style="margin-left: auto;margin-right: auto; margin-bottom: 20px;">Kaydet</button>
+                </form>
+            </div>
+            
+            <div class="col-md-6 p-3 margin-left: auto;margin-right: auto;">
+                <div class="{{'' if kullanici else 'hidden-part' }}  ">
+                    <!-- Ayarla Butonları -->
+                    <table class="table table-borderless">
+                        <tbody>
+                            <!-- Kullanıcı Adı -->
+                            <tr>
+                                <td><label >Donanım Anahtarı</label></td>
+                                <td>
+                                    <a href="/donanim_kayit" class="m-0">Ayarla</a>
+                                </td>
+                                <td class="text-center">
+                                    <i id="donanim_kayit_icon" class="form-check-icon {{'green' if kullanici[9] else 'gray' }}  bi bi-check-circle-fill"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label >Yüz Tanıma</label></td>
+                                <td>
+                                    <a href="/yuz_kayit" class="m-0">Ayarla</a>
+                                </td>
+                                <td class="text-center">
+                                    <i id="yuz_kayit_icon" class="form-check-icon {{'green' if kullanici[8] else 'gray' }} bi bi-check-circle-fill"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label >TOTP Uygulaması</label></td>
+                                <td>
+                                    <a href="/totp_setup" class="m-0">Ayarla</a>
+                                </td>
+                                <td class="text-center">
+                                    <i id="totp_setup_icon" class="form-check-icon {{'green' if kullanici[6] else 'gray' }} bi bi-check-circle-fill"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="/login" style="margin-left: auto;margin-right: auto;width: 100%;"><button type="button" class="btn btn-primary col col-md-6 d-block" style="margin-top: 228px;margin-left: auto;margin-right: auto; margin-bottom: 20px;">Giriş Sayfası</button></a>
+                
+                </div>
+            </div>
+
+        </div>
+        
+        
+      
+
+        
+    <!-- Bootstrap JS and Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Icon Library -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
+    <script>
+        document.querySelectorAll('input').forEach(input => {
+            input.setAttribute('autocomplete', 'off');
+        });
+
+        // Textboxlar dolduğunda ikon rengi değiştir
+        function updateIcon(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+
+            input.addEventListener('input', () => {
+                if (input.value.trim() !== "") {
+                    icon.classList.remove('gray');
+                    icon.classList.add('green');
+                } else {
+                    icon.classList.remove('green');
+                    icon.classList.add('gray');
+                }
+            });
+        }
+
+        // İkon güncellemelerini tetikle
+        updateIcon('kullanici_adi', 'kullanici_adi_icon');
+        updateIcon('sifre', 'sifre_icon');
+        updateIcon('email', 'email_icon');
+        updateIcon('telefon', 'telefon_icon');
+        updateIcon('push_token', 'push_token_icon');
+
+        // Form gönderildiğinde ayar butonlarını göster
+        document.querySelector('form').addEventListener('submit', (event) => {
+            //event.preventDefault(); // Test sırasında form gönderimini engelle
+            //document.getElementById('justify-content-beetween').classList.remove('hidden-part'); 
+        });
+    </script>
+</body>
+</html>

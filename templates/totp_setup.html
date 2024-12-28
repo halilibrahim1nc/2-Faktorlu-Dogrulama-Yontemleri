@@ -1,0 +1,11 @@
+{% extends "base_kapsul.html" %}
+{% block content %}
+
+<h2>Google Authenticator Kurulumu</h2>
+<p>Google Authenticator uygulamasını açın ve aşağıdaki anahtar değeri girin yada Qr kodu taratın.</p>
+<p style="text-align: center; font-weight: bold;">{{ totp_secret }}</p>
+<img src="{{ url_for('static', filename='qr_codes/' + qr_code_path.split('/')[-1]) }}" alt="TOTP QR Code" style="width: 250px;margin-left: auto;margin-right: auto;">
+<p>Kurulum tamamlandıktan sonra OTP kodu ile doğrulama yapabilirsiniz.</p>
+<a href="/kullanici_kayit"><button class="btn btn-info" style="margin-left: auto;margin-right: auto;">Geri dön</button></a>
+
+{% endblock %}

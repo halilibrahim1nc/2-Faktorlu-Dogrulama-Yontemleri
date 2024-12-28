@@ -1,0 +1,14 @@
+{% extends "base_kapsul.html" %}
+{% block content %}
+
+<h2>SMS Doğrulama</h2>
+<div>Kayıt Sayısı {{test_sayisi+1}} / 25 </div>
+<p>Telefonunuza gönderilen doğrulama kodunu girin:</p>
+<form method="POST">
+    <label>SMS Kodu:</label>
+    <input type="text" name="sms_kodu" required>
+    <button type="submit">Doğrula</button>
+</form>
+<a href="/">Ana Sayfa</a>
+
+{% endblock %}

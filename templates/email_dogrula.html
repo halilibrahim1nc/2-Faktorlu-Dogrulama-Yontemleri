@@ -1,0 +1,27 @@
+{% extends "base_kapsul.html" %}
+{% block content %}
+
+    <h2>E-posta Doğrulama</h2>
+    <div>Kayıt Sayısı {{test_sayisi+1}} / 25 </div>
+    <form method="POST">
+        <label for="kod">Doğrulama Kodu:</label>
+        <input type="text" name="kod" id="kod" required>
+        <button type="submit">Doğrula</button>
+    </form>
+    <p>Kalan süre: <span id="sayac"></span></p>
+    
+    <script>
+        let kalanSure = {{ kalan_sure }};
+        function geriSayim() {
+            const sayaç = document.getElementById('sayac');
+            if (kalanSure > 0) {
+                sayaç.innerText = kalanSure + " saniye";
+                kalanSure -= 1;
+                setTimeout(geriSayim, 1000);
+            } else {
+                sayaç.innerText = "Süre doldu. Yeni bir kod isteyin.";
+            }
+        }
+        window.onload = geriSayim;
+    </script>
+{% endblock %}

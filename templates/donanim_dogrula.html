@@ -1,0 +1,36 @@
+{% extends "base_kapsul.html" %}
+{% block content %}
+<h2>Donanım Doğrulama</h2>
+<div>Kayıt Sayısı {{test_sayisi+1}} / 25 </div>
+<p id="message">Doğrulama işlemi yapılıyor...</p>
+<button id="retry" style="display: none;">Yeniden Dene</button>
+
+<script>
+    const message = document.getElementById('message');
+    const retryButton = document.getElementById('retry');
+
+    async function checkHardwareKey() {
+        try {
+            const response = await fetch('/donanim_dogrula', { method: 'POST', });
+            const result = await response.json();
+
+            if (result.success) {
+                message.innerText = result.message;
+                setTimeout(() => { window.location.href = '/'; }, 0);
+            } else {
+                message.innerText = result.message;
+                retryButton.style.display = 'block';
+            }
+        } catch (error) { message.innerText = "Bir hata oluştu: " + error.message; }
+    }
+
+    window.onload = () => { checkHardwareKey(); };
+
+    retryButton.addEventListener('click', () => {
+        retryButton.style.display = 'none';
+        message.innerText = "Doğrulama işlemi yapılıyor...";
+        checkHardwareKey();
+    });
+</script>
+
+{% endblock %}

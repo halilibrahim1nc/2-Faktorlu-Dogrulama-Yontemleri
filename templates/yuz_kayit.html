@@ -1,0 +1,41 @@
+ 
+ {% extends "base_kapsul.html" %}
+ {% block content %}
+        
+        <h2>Yüz Kaydı</h2>
+        <p>Kamerayı açın ve yüz kaydı yapmak için "Kaydet" butonuna tıklayın.</p>
+        <video id="kamera" style="width: 560px;margin: 20px;" autoplay></video>
+        <canvas id="canvas" style="display: none;"></canvas>
+        <form id="yuz-form" method="POST" enctype="multipart/form-data">
+            <input id="yuz-resmi" type="file" name="yuz_resmi" style="display: none;">
+            <button type="button" onclick="kaydet()">Kaydet</button>
+        </form>
+        <script>
+            const video = document.getElementById('kamera');
+            const canvas = document.getElementById('canvas');
+            const yuzResmiInput = document.getElementById('yuz-resmi');
+            const yuzForm = document.getElementById('yuz-form');
+        
+            // Kamerayı başlat
+            navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+                video.srcObject = stream;
+            });
+        
+            // Görüntüyü yakala ve gönder
+            function kaydet() {
+                const context = canvas.getContext('2d');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        
+                canvas.toBlob(blob => {
+                    const file = new File([blob], "yuz_resmi.jpg", { type: "image/jpeg" });
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    yuzResmiInput.files = dataTransfer.files;
+                    yuzForm.submit();
+                });
+            }
+        </script>
+ 
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base_kapsul.html" %}
+{% block content %}
+    
+    <!-- Firebase SDK -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+
+
+    // Firebase Config
+    
+    const firebaseConfig = {
+        apiKey: "AIzaSyBlqX0AMS-ekr5fmyuMvXdNc2gHMTuaoYw",
+        authDomain: "fir-2fapushbildirimtest.firebaseapp.com",
+        databaseURL: "https://fir-2fapushbildirimtest-default-rtdb.firebaseio.com",
+        projectId: "fir-2fapushbildirimtest",
+        storageBucket: "fir-2fapushbildirimtest.firebasestorage.app",
+        messagingSenderId: "117098401261",
+        appId: "1:117098401261:web:b3e29d09fdf505bb13abe4"
+    };
+
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const kullaniciId = "{{ kullanici_id }}";
+    const durumRef = ref(db, `oturum_dogrulama/${kullaniciId}/durum`);
+
+    onValue(durumRef, (snapshot) => {
+        const durum = snapshot.val();
+        if (durum === "evet" || durum === "hayir") {
+            fetch('/push_verify', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ durum: durum })
+            })
+            .then(response => response.json())
+            .then(data => {
+                window.location.href = data.redirect; // Yanıttaki yönlendirme URL'ine git
+            })
+            .catch(error => console.error('Hata:', error));
+        }
+    });
+</script>
+
+
+    <h2>Doğrulama Bekleniyor...</h1>
+    <div>Kayıt Sayısı {{test_sayisi+1}} / 25 </div>
+    <p>Lütfen bildirimde 'Evet' seçeneğini işaretleyin.</p>
+
+{% endblock %}
+        
+

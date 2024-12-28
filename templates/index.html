@@ -1,0 +1,18 @@
+{% extends "base_kapsul.html" %}
+{% block content %}
+
+<table>
+    <tr>
+        <td> <h6>"{{ kullanici_adi }}" kullanıcısıyla giriş yapıldı</h6></td>
+        <td></td>
+        <td><a href="/settings">Ayarlar</a></td>
+        <td><a href="/logout">Çıkış Yap</a></td>
+    </tr>
+    <tr>
+        <td colspan="4">
+            <h2>İki zamanlı doğrulama uygulası başarılı oldu ve giriş yapıldı</h2>
+        </td>
+    </tr>
+</table>
+        
+{% endblock %}

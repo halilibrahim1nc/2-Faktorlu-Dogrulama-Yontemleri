@@ -1,0 +1,59 @@
+{% extends "base_kapsul.html" %}
+{% block content %}
+        
+        <h2>Yüz Doğrulama</h2>
+        <div id="flash-messages" style=" padding: 10px; margin-bottom: 20px;">
+            Yüz doğrulama başlatılıyor...
+        </div>
+        <div>Kayıt Sayısı {{test_sayisi+1}} / 25 </div>
+        <video id="kamera" autoplay style="width: 560px;margin: 20px;"></video>
+        <canvas id="canvas" style="display: none;"></canvas>
+
+        <script>
+            const video = document.getElementById('kamera');
+            const canvas = document.getElementById('canvas');
+            const flashMessages = document.getElementById('flash-messages');
+
+            // Kamerayı başlat
+            navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+                video.srcObject = stream;
+            }).catch(err => {
+                flashMessages.innerText = "Kamera başlatılamadı: " + err.message;
+            });
+
+            // Belirli aralıklarla yüz doğrulama isteği gönder
+            setInterval(() => {
+                const context = canvas.getContext('2d');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                // Görüntüyü sunucuya gönder
+                canvas.toBlob(blob => {
+                    const formData = new FormData();
+                    formData.append("yuz_resmi", blob);
+
+                    fetch('/yuz_dogrulama', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            flashMessages.innerText = data.message;
+                            setTimeout(() => {
+                                window.location.href = '/';  // Eşleşme başarılıysa index sayfasına yönlendir
+                            }, 1000);
+                        } else {
+                            flashMessages.innerText = data.message;
+                        }
+                    })
+                    .catch(err => {
+                        flashMessages.innerText = "Hata: " + err.message;
+                    });
+                });
+            }, 3000);  // Her 0.5 saniyede bir doğrulama
+        </script>
+
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base_kapsul.html" %}
+{% block content %}
+<div style="margin-left: auto;">
+    <a href="/kullanici_kayit" class="btn btn-success" ><button style="background-color:#5cb85c;">Yeni Kullanıcı</button> </a>
+</div>
+<form method="POST">
+<label>Kullanıcı Adı:</label><input type="text" name="kullanici_adi" required>
+<label>Şifre:</label><input type="password" name="sifre" required>
+<button type="submit">Giriş Yap</button>
+</form>
+
+
+        
+{% endblock %}
